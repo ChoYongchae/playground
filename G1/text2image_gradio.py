@@ -19,13 +19,14 @@ def text2image(text):
     log_path = f"{now.year}_{now.month}_{now.date}.txt"
     with open(log_path, "w+", encoding="utf-8") as f:
         f.write(f"{text}\n")
+    print(text)
     model = get_model()
     image = model(prompt=text).images[0]
     return image
 
 demo = gr.Interface(
     fn=text2image,
-    inputs=["text"],
-    outputs=["image"],
+    inputs=["생성할 텍스트를 입력해주세요. (약 5초 소요)"],
+    outputs=["결과물"],
 )
 demo.launch(share=True)
