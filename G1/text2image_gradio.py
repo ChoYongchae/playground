@@ -14,19 +14,20 @@ def get_model(model_name="runwayml/stable-diffusion-v1-5"):
         # TODO: management gpu memory
     return models[model_name]
 
-def text2image(text):
+def text2image(input_text):
     now = datetime.now()
     log_path = f"{now.year}_{now.month}_{now.date}.txt"
     with open(log_path, "w+", encoding="utf-8") as f:
-        f.write(f"{text}\n")
-    print(text)
+        f.write(f"{input_text}\n")
+    print(input_text)
     model = get_model()
-    image = model(prompt=text).images[0]
-    return image
+    generated = model(prompt=input_text).images[0]
+    return generated
 
+# TODO: blocks 사용해보기
 demo = gr.Interface(
     fn=text2image,
-    inputs=["생성할 텍스트를 입력해주세요. (약 5초 소요)"],
-    outputs=["결과물"],
+    inputs=["text"],
+    outputs=["image"],
 )
 demo.launch(share=True)
